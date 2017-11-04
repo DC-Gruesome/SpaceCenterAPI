@@ -46,7 +46,8 @@ function rssfeed(req, res){
         
         feed("https://www.universetoday.com/universetoday.xml", function(err, articles) {
             if (err) return err;
-
+            rssfeed_all.push(articles);
+            
             feed("http://feeds.feedblitz.com/dailygalaxy&x=1", function(err, articles) {
                 if (err) return err;
                 rssfeed_all.push(articles);
