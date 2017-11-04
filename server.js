@@ -1,10 +1,4 @@
 'use strict';
-// myBusinessBot
-// Version 1.0.1
-//
-// Getting started with Facebook Messaging Platform
-// https://developers.facebook.com/docs/messenger-platform/quickstart
-
 var express = require('express');
 var request = require('superagent');
 var bodyParser = require('body-parser');
@@ -12,8 +6,6 @@ var path = require('path');
 var dateFormat = require('dateformat');
 var numeral = require('numeral');
 var mongoJS = require('mongojs');
-var mongoose = require('mongoose');
-var mongooseP = require('mongoose');
 var cron = require("cron");
 var feed = require("feed-read");
 
@@ -42,45 +34,36 @@ db.on('connect', function() {
 
 //======================= API Functions ===============================
 
-app.get('/news/all', rssfeed_all);
-app.get('/news/spacenews', rssfeed_spacenews);
-// app.get('/news/space', rssfeed_space);
-app.get('/news/universetoday', rssfeed_universetoday);
+app.get('/news', rssfeed);
+app.get('/news/test', rssfeed_test);
 
-function rssfeed_all(req, res){
+function rssfeed(req, res){
+    var rssfeed_all = [];
+
     feed("http://spacenews.com/feed/", function(err, articles) {
         if (err) return err;
-        var rssfeed_spacenews = articles;
-
+        rssfeed_all.push(articles);
+        
         feed("https://www.universetoday.com/universetoday.xml", function(err, articles) {
             if (err) return err;
-            var universetoday = articles;
 
-            // Combine all rss feeds
-            var rssfeed_all = [];
-            rssfeed_all.push(rssfeed_spacenews);
-            rssfeed_all.push(universetoday);
+            feed("http://feeds.feedblitz.com/dailygalaxy&x=1", function(err, articles) {
+                if (err) return err;
+                rssfeed_all.push(articles);
 
-            // console.log(rssfeed_all);
-            // Each article has the following properties:
-            // 
-            //   * "title"     - The article title (String).
-            //   * "author"    - The author's name (String).
-            //   * "link"      - The original article link (String).
-            //   * "content"   - The HTML content of the article (String).
-            //   * "published" - The date that the article was published (Date).
-            //   * "feed"      - {name, source, link}
-            // 
-            return res.status(200).send(rssfeed_all);
-        });    });
-}
+                // Each article has the following properties:
+                //   * "title"     - The article title (String).
+                //   * "author"    - The author's name (String).
+                //   * "link"      - The original article link (String).
+                //   * "content"   - The HTML content of the article (String).
+                //   * "published" - The date that the article was published (Date).
+                //   * "feed"      - {name, source, link}
 
-function rssfeed_spacenews(){
-    feed("http://spacenews.com/feed/", function(err, articles) {
-        if (err) return err;
-        return (articles);
-      });
-          
+                // console.log(rssfeed_all);
+                return res.status(200).send(rssfeed_all);
+        });
+        });    
+    });
 }
 
 function rssfeed_space(){
@@ -93,8 +76,8 @@ function rssfeed_space(){
             
 }
     
-function rssfeed_universetoday(req, res){
-    feed("https://www.universetoday.com/universetoday.xml", function(err, articles) {
+function rssfeed_test(req, res){
+    feed("http://feeds.feedblitz.com/dailygalaxy&x=1", function(err, articles) {
         console.log(err);
         if (err) return err;
         console.log(articles);
