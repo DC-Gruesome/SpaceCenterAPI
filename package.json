@@ -1,0 +1,37 @@
+{
+  "name": "SpaceCenter",
+  "description": "Backend Server for SpaceCenter",
+  "version": "1.0.0",
+  "author": "Nay",
+  "license": "Private",
+  "main": "server.js",
+
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "dateformat": "latest",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "cron": "latest",
+    "mongojs": "latest",
+    "mongoose": "^4.9.2",
+    "numeral": "latest",
+    "path": "latest",
+    "superagent": "^1.8.3",
+    "feed-read": "latest"
+  },
+
+  "scripts": {
+    "start": "node server.js"
+  },
+  
+  "devDependencies": {
+    "eslint": "^2.7.0",
+    "eslint-config-airbnb": "^7.0.0",
+    "eslint-plugin-jsx-a11y": "^0.6.2",
+    "eslint-plugin-react": "^4.3.0"
+  },
+  
+  "engines": {
+    "node": "4.1.1"
+  }
+}
