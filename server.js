@@ -50,7 +50,7 @@ app.get('/news/universetoday', rssfeed_universetoday);
 function rssfeed_all(req, res){
     feed("http://spacenews.com/feed/", function(err, articles) {
         if (err) return err;
-        var rssfeed_spacenews = rssfeed_spacenews();
+        var rssfeed_spacenews = articles;
 
         feed("https://www.universetoday.com/universetoday.xml", function(err, articles) {
             if (err) return err;
