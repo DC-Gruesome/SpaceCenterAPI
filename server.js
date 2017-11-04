@@ -64,7 +64,7 @@ function rssfeed_spacenews(req, res){
 }
 
 function rssfeed_space(req, res){
-    feed("http://space.com/home/feed/", function(err, articles) {
+    feed("https://www.space.com/home/feed/site.xml", function(err, articles) {
         console.log(err);
         if (err) return err;
         // Each article has the following properties:
@@ -76,6 +76,7 @@ function rssfeed_space(req, res){
         //   * "published" - The date that the article was published (Date).
         //   * "feed"      - {name, source, link}
         // 
+        // console.log(articles);
         return res.status(200).send(articles);
         });
             
