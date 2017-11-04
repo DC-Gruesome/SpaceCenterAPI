@@ -42,10 +42,10 @@ db.on('connect', function() {
 
 //======================= API Functions ===============================
 
-app.get('/rssfeeds/all', rssfeed);
+app.get('/news/spacenews', rssfeed_spacenews);
+app.get('/news/space', rssfeed_space);
 
-function rssfeed(req, res){
-
+function rssfeed_spacenews(req, res){
     feed("http://spacenews.com/feed/", function(err, articles) {
         console.log(err);
         if (err) return err;
@@ -58,12 +58,29 @@ function rssfeed(req, res){
         //   * "published" - The date that the article was published (Date).
         //   * "feed"      - {name, source, link}
         // 
-        console.log(articles);
         return res.status(200).send(articles);
       });
           
 }
 
+function rssfeed_space(req, res){
+    feed("http://space.com/home/feed/", function(err, articles) {
+        console.log(err);
+        if (err) return err;
+        // Each article has the following properties:
+        // 
+        //   * "title"     - The article title (String).
+        //   * "author"    - The author's name (String).
+        //   * "link"      - The original article link (String).
+        //   * "content"   - The HTML content of the article (String).
+        //   * "published" - The date that the article was published (Date).
+        //   * "feed"      - {name, source, link}
+        // 
+        return res.status(200).send(articles);
+        });
+            
+}
+    
 
 //------------------------- Server start listening ----------------------
 app.listen(port);
