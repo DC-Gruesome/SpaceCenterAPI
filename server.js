@@ -44,7 +44,7 @@ db.on('connect', function() {
 
 app.get('/news/all', rssfeed_all);
 app.get('/news/spacenews', rssfeed_spacenews);
-app.get('/news/space', rssfeed_space);
+// app.get('/news/space', rssfeed_space);
 app.get('/news/universetoday', rssfeed_universetoday);
 
 function rssfeed_all(req, res){
@@ -52,14 +52,14 @@ function rssfeed_all(req, res){
         if (err) return err;
         var rssfeed_spacenews = rssfeed_spacenews();
 
-        feed("https://www.space.com/home/feed/site.xml", function(err, articles) {
+        feed("https://www.universetoday.com/universetoday.xml", function(err, articles) {
             if (err) return err;
-            var rssfeed_space = articles;
+            var universetoday = articles;
 
             // Combine all rss feeds
             var rssfeed_all = [];
             rssfeed_all.push(rssfeed_spacenews);
-            rssfeed_all.push(rssfeed_space);
+            rssfeed_all.push(universetoday);
 
             // console.log(rssfeed_all);
             // Each article has the following properties:
