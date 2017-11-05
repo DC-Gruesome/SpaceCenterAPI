@@ -10,7 +10,6 @@ var cron = require("cron");
 var feed = require("feed-read");
 var fetch = require("fetch").fetchUrl;
 
-
 // use body-parser so we can grab information from POST requests
 var app = express();
 app.use(bodyParser.urlencoded({
@@ -23,9 +22,38 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 var port = process.env.PORT || 8080;
 
+// ---------------------- MYSQL Database -----------------------------------
+// var mysql = require('mysql');
+
+// var connection = mysql.createConnection({
+//     host     : "stellardb.cdcasudfn9ih.us-east-1.rds.amazonaws.com",
+//     port     : 3306,
+//     user     : "destronaut",
+//     password : "sodacitycosmos",
+//     database : 'jobsdb',
+// });
+
+// connection.connect(function(err) {
+//   if (err) {
+//     console.error('Database connection failed: ' + err.stack);
+//     return;
+//   }
+
+//   console.log('Connected to database.');
+// });
+
+// // [4] Query the database
+// connection.query("SELECT * FROM Jobs;", function (error, results, fields) {
+//     if (error) console.log(error);
+//     console.log('The Jobs: ');
+//     console.log(results);
+// });
+  
+// connection.end();
+
 // ---------------------- MONGODB Database -----------------------------------
 // Connect to the database
-var databaseUrl = "mongodb://admin@ds119302.mlab.com:19302/heroku_gtqcb99j?3t.databases=heroku_gtqcb99j&3t.uriVersion=2&3t.connection.name=SpaceCenter&3t.connectionMode=direct&readPreference=primary";
+var databaseUrl = "mongodb://admin:admin@ds119302.mlab.com:19302/heroku_gtqcb99j";
 var collections = ["open_jobs", "archived_jobs"];
 var db = mongoJS(databaseUrl, collections);
 
@@ -33,11 +61,31 @@ db.on('connect', function() {
     console.log(">>> Database connected!!");
 });
 
-//======================= API Functions ===============================
+db.on('error', function(err) {
+    console.log('database error', err)
+    console.log(">>> Error in Database connection!!");
+});
 
+//======================= API Functions ===============================
 app.get('/news', rssfeed);
 app.get('/news/test', rssfeed_test);
+app.get('/jobs/all', getjobs);
+app.post('/jobs/create', createjobs);
 
+//-------------------
+function createjobs(res, req){
+    return res.status(200).send(null);
+}
+
+function getjobs(res, req){
+    db.open_jobs.find(function (err, docs) {
+        // docs is an array of all the documents in mycollection 
+        console.log(err);
+        return res.status(200).send(docs);
+    });     
+}
+
+//------------------ RSS NEWS
 function rssfeed(req, res){
     var rssfeed_all = [];
 
