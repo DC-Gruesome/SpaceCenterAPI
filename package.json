@@ -5,6 +5,7 @@
   "author": "Nay",
   "license": "Private",
   "main": "server.js",
+
   "dependencies": {
     "body-parser": "^1.15.0",
     "cron": "latest",
@@ -31,6 +32,6 @@
     "eslint-plugin-react": "^4.3.0"
   },
   "engines": {
-    "node": "4.1.1"
+    "node": "9.0.0"
   }
 }
