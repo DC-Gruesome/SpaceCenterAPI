@@ -54,7 +54,7 @@ var port = process.env.PORT || 8080;
 // ---------------------- MONGODB Database -----------------------------------
 // Connect to the database
 var databaseUrl = "mongodb://admin:admin@ds119302.mlab.com:19302/heroku_gtqcb99j";
-var collections = ["open_jobs", "archived_jobs"];
+var collections = ["jobs", "archived_jobs"];
 var db = mongoJS(databaseUrl, collections);
 
 db.on('connect', function() {
@@ -66,21 +66,26 @@ db.on('error', function(err) {
     console.log(">>> Error in Database connection!!");
 });
 
-//======================= API Functions ===============================
+//======================= NEWS APIs ===============================
 app.get('/news', rssfeed);
 app.get('/news/test', rssfeed_test);
-app.get('/jobs/all', getjobs);
+
+//======================= JOBS APIs ===============================
+app.get('/jobs', getjobs);
 app.post('/jobs/create', createjobs);
 
 //-------------------
-function createjobs(res, req){
+function createjobs(req, res){
     return res.status(200).send(null);
 }
 
-function getjobs(res, req){
-    db.open_jobs.find(function (err, docs) {
+function getjobs(req, res){
+    db.jobs.find(function (err, docs) {
         // docs is an array of all the documents in mycollection 
-        console.log(err);
+        if (err){
+            console.log(err);
+            return res.status(400).send(err);
+        }
         return res.status(200).send(docs);
     });     
 }
