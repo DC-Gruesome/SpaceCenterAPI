@@ -5,7 +5,6 @@
   "author": "Nay",
   "license": "Private",
   "main": "server.js",
-
   "dependencies": {
     "body-parser": "^1.15.0",
     "dateformat": "latest",
@@ -17,20 +16,18 @@
     "numeral": "latest",
     "path": "latest",
     "superagent": "^1.8.3",
-    "feed-read": "latest"
+    "feed-read": "latest",
+    "fetch": "latest"
   },
-
   "scripts": {
     "start": "node server.js"
   },
-  
   "devDependencies": {
     "eslint": "^2.7.0",
     "eslint-config-airbnb": "^7.0.0",
     "eslint-plugin-jsx-a11y": "^0.6.2",
     "eslint-plugin-react": "^4.3.0"
   },
-  
   "engines": {
     "node": "4.1.1"
   }

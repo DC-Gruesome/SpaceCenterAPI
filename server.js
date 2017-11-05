@@ -8,6 +8,7 @@ var numeral = require('numeral');
 var mongoJS = require('mongojs');
 var cron = require("cron");
 var feed = require("feed-read");
+var fetch = require("fetch").fetchUrl;
 
 
 // use body-parser so we can grab information from POST requests
@@ -78,12 +79,21 @@ function rssfeed_space(){
 }
     
 function rssfeed_test(req, res){
-    feed("http://feeds.feedblitz.com/dailygalaxy&x=1", function(err, articles) {
+    feed("https://www.nasa.gov/rss/dyn/glenn_features.rss", function(err, articles) {
         console.log(err);
         if (err) return err;
+        for (let i=0; i < articles.length; i++){
+            let url = articles[i].link;
+            if (url){
+                fetch(url, function(error, meta, body){
+                    console.log(url);
+                    articles[i].content = body.toString();
+                });
+            }
+        }
         console.log(articles);
         return res.status(200).send(articles);
-        });
+    });
             
 }
 
